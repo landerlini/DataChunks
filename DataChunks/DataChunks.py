@@ -28,7 +28,7 @@ class DataChunks:
     Loads a chunk of 100 entries of which 10 from `file_with_100_rows.root` and 90 from 
     `file_with_900_rows.root`.
   """
-  def __init__ (self, files, chunksize, n_files=100000, key = None):
+  def __init__ (self, files, chunksize, n_files=100000, key = None, **kwargs):
     """
       Creates a DataChunk object building the sample combining several root files. 
 
@@ -47,11 +47,15 @@ class DataChunks:
           Name of the TTree to be loaded. Can be None (default) is a single TTree
           is defined per TFile. 
 
+        Other arguments are passed to root_numpy.root2array complementing the
+        arguments: `file`, `treename`, `start`, `stop` defined by DataChunks. 
+
     """
     self._files  = list()
     self._n_files = n_files
     self._chunksize = chunksize
     self._ntot = 0 
+    self._kwargs = kwargs
     for f in files: 
       key_ = key if key else None 
       if not key_:
